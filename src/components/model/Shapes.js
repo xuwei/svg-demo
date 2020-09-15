@@ -69,7 +69,9 @@ class Polygon extends Shape {
         var result = ""
         for (var i = 0; i < this.coords.length; i++) {
             result += this.coords[i].toString()
+            result += " "
         }
+        debugger;
         return result
     }
 }
