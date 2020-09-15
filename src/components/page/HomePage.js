@@ -23,29 +23,30 @@ function HomePage() {
     const validateInput = (input, line)=> {
         const components = input.split(" ")
         const type = components[0]
-        
-        console.log(TypeOfShape.Rectangle)
-
+        var current = []
         if (type === TypeOfShape.Rectangle && components.length === 5) {
             // generate Rectangle model and append to Shapes array
             const rect = new Rectangle(type, components[1], components[2], components[3], components[4])
             if (rect.isValid() === false) { alert("invalid size"); return }
-            setShapes(shapes.push(rect))
+            current = shapes
+            setShapes(current.push(rect))
         } else if (type === TypeOfShape.Circle && components.length === 4) {
             // generate Circle model and append to Shapes array
             const circle = new Circle(type, components[1], components[2], components[3])
             if (circle.isValid() === false) { alert("invalid size"); return }
-            setShapes(shapes.push(circle))
+            current = shapes
+            setShapes(current.push(circle))
         } else if (type === TypeOfShape.Polygon) {
             // generate Polygon model and append to Shapes array
             var coords = [] 
             for (var i = 1; i < components.length; i++) {
-                var current = components[i]
-                var coord = current.split(",")
+                var curr = components[i]
+                var coord = curr.split(",")
                 coords.push(coord)
             }
             const polygon = new Polygon(type, coords)
-            setShapes(shapes.push(polygon))
+            current = shapes
+            setShapes(current.push(polygon))
         } else {
             alert("Invalid shape"); return 
         }
