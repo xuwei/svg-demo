@@ -1,7 +1,7 @@
-class TypeOfShape {
-    RECTANGLE = 'r'
-    CIRCLE = 'c'
-    POLYGON = 'p'
+const TypeOfShape = {
+    Rectangle : 'r', 
+    Circle : 'c',
+    Polygon : 'p'
 }
 
 class Shape {
