@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { TextareaAutosize, Paper, Typography, Box, Grid, Container, Button } from '@material-ui/core'
+import { TextareaAutosize, Paper, Typography, Box, Container, Button } from '@material-ui/core'
 import { LargePadding } from '../Configs'
 import { Rectangle, Circle, Polygon, TypeOfShape } from '../model/Shapes.js'
+import SVGShape from '../common/SVGShape'
 
 function HomePage() {
 
@@ -17,8 +18,6 @@ function HomePage() {
         for (var i = 0; i < inputLines.length; i++) {
             validateInput(inputLines[i], i+1)
         }
-
-        // generate shapes and populate Shapes array
     }
 
     const validateInput = (input, line)=> {
@@ -27,15 +26,28 @@ function HomePage() {
         
         console.log(TypeOfShape.Rectangle)
 
-        debugger;
-        if (type === TypeOfShape.Rectangle) {
-            alert("Rectangle on line " + line) 
-        } else if (type === TypeOfShape.Circle) {
-            alert("Circle on line " + line) 
+        if (type === TypeOfShape.Rectangle && components.length === 5) {
+            // generate Rectangle model and append to Shapes array
+            const rect = new Rectangle(type, components[1], components[2], components[3], components[4])
+            if (rect.isValid() === false) { alert("invalid size"); return }
+            setShapes(shapes.push(rect))
+        } else if (type === TypeOfShape.Circle && components.length === 4) {
+            // generate Circle model and append to Shapes array
+            const circle = new Circle(type, components[1], components[2], components[3])
+            if (circle.isValid() === false) { alert("invalid size"); return }
+            setShapes(shapes.push(circle))
         } else if (type === TypeOfShape.Polygon) {
-            alert("Polygon on line " + line) 
+            // generate Polygon model and append to Shapes array
+            var coords = [] 
+            for (var i = 1; i < components.length; i++) {
+                var current = components[i]
+                var coord = current.split(",")
+                coords.push(coord)
+            }
+            const polygon = new Polygon(type, coords)
+            setShapes(shapes.push(polygon))
         } else {
-            alert("Invalid shape")
+            alert("Invalid shape"); return 
         }
     }
 
@@ -51,13 +63,11 @@ function HomePage() {
                 </Typography>
             </Box>
             <Paper variant="outlined" mx="auto">
-                <Box flexGrow={1} align="center" py={LargePadding.PY} sm={12} md={6}>
-                    <svg viewBox="0 0 250 250">
-                        { 
-                            shapes.map((shape, i) => (
-                                console.log(i)
-                            ))
-                        }
+                <Box flexGrow={1} align="center" py={LargePadding.PY} xs={12} md={6}>
+                    <svg width={250} height={250}>
+                        {shapes.map((shape) => (
+                            <SVGShape model={shape}/>    
+                        ))}
                     </svg>
                 </Box>
             </Paper>
