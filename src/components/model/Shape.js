@@ -1,7 +1,9 @@
 const TypeOfShape = {
     Rectangle : 'r', 
     Circle : 'c',
-    Polygon : 'p'
+    Polygon : 'p',
+    Eclipse : 'e',
+    Line : 'l'
 }
 
 const GlobalErrors = {

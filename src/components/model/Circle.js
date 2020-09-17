@@ -1,9 +1,10 @@
-import Shape, { Constants, TypeOfShape, GlobalErrors } from './Shape'
+import Shape, { Constants, TypeOfShape } from './Shape'
 import { CreateShapeResult } from './ShapeFactory'
 import NumberUtil from '../util/NumberUtil'
 
 const CircleErrors = {
-    InvalidParam : 'Invalid params for circle. Sample - "c <x> <y> <radius>'
+    InvalidParam : 'Invalid params for circle. Sample - "c <x> <y> <radius>',
+    ExceedMaxRadius : 'Radius cannot exceed 125 as element dimension cannot exceed 250.'
 }
 
 class Circle extends Shape {
@@ -22,7 +23,7 @@ class Circle extends Shape {
         if (components.length !== numOfParams) { result.error = CircleErrors.InvalidParam; return result }
         if (!NumberUtil.isNumber(components[0]) || !NumberUtil.isNumber(components[1]) || !NumberUtil.isNumber(components[2])) { result.error = CircleErrors.InvalidParam; return result }
         const circle = new Circle(TypeOfShape.Circle, components[0], components[1], components[2])
-        if (circle.isValid() === false) { result.error = GlobalErrors.InvalidDimension; return result }
+        if (circle.isValid() === false) { result.error = CircleErrors.ExceedMaxRadius; return result }
         
         result.response = circle
         result.error = undefined

@@ -83,6 +83,8 @@ function HomePage() {
                         <ListItemText>Rectangle - r 0 0 100 100</ListItemText>
                         <ListItemText>Circle - c 0 0 100</ListItemText>
                         <ListItemText>Polygon - p 10,20 40,50 30,20 ....</ListItemText>
+                        <ListItemText>Eclipse - e 0 0 100 200</ListItemText>
+                        <ListItemText>Line - l 0 0 100,100</ListItemText>
                     </List>
                 </Typography>
             </Box>
