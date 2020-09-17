@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { TextareaAutosize, Typography, Box, Container, Button } from '@material-ui/core'
 import { LargePadding } from '../Configs'
-import { Rectangle, Circle, Polygon, TypeOfShape } from '../model/Shapes.js'
+import { ShapeFactory } from '../model/Shapes.js'
 import SVGShape from '../common/SVGShape'
 
 function HomePage() {
@@ -27,31 +27,23 @@ function HomePage() {
     }
 
     const validateInput = (input, line)=> {
+        
+        // validate input lengths 
         if (input.length === 0) { return undefined }
         const components = input.split(" ")
+        if (components.length < 2) { return undefined}
+        
+        // build shape using ShapeFactory
         const type = components[0]
-        if (type === TypeOfShape.Rectangle && components.length === 5) {
-            // generate Rectangle model and append to Shapes array
-            const rect = new Rectangle(type, components[1], components[2], components[3], components[4])
-            if (rect.isValid() === false) { alert("Invalid size. Line " + line); return undefined }
-            return rect
-        } else if (type === TypeOfShape.Circle && components.length === 4) {
-            // generate Circle model and append to Shapes array
-            const circle = new Circle(type, components[1], components[2], components[3])
-            if (circle.isValid() === false) { alert("Invalid size. Line " + line); return undefined }
-            return circle
-        } else if (type === TypeOfShape.Polygon) {
-            // generate Polygon model and append to Shapes array
-            var coords = [] 
-            for (var i = 1; i < components.length; i++) {
-                var curr = components[i]
-                var coord = curr.split(",")
-                coords.push(coord)
-            }
-            const polygon = new Polygon(type, coords)
-            return polygon
+        const attributeComponents = components.slice(1, components.length)
+        var result = new ShapeFactory().createShape(type, attributeComponents)
+        if (result === undefined) { return result }
+
+        if (result.error !== undefined) {
+            alert(result.error, line)
+            return undefined
         } else {
-            alert("Invalid shape. Line " + line); return undefined
+            return result.response 
         }
     }
 
@@ -67,7 +59,7 @@ function HomePage() {
                 </Typography>
             </Box>
             <Box flexGrow={1} align="center" py={LargePadding.PY} xs={12} md={6}>
-                <svg width={250} height={250} style={{border: '1px solid gray', background: "dark-gray"}}>
+                <svg viewMode="0 0 100 100" width="100%" height={512} xs={12} md={12} style={{border: '1px solid gray', background: "dark-gray"}}>
                     {shapes.map((shape) => (
                         <SVGShape model={shape}/>    
                     ))}
