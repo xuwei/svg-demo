@@ -16,7 +16,6 @@ class Circle extends Shape {
     }
 
     generateShape = (components) => {
-        debugger;
         const numOfParams = 3
         var result = new CreateShapeResult()
         if (components === undefined) { result.error = CircleErrors.InvalidParam; return result }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { TextareaAutosize, Typography, Box, Container, Button } from '@material-ui/core'
-import { LargePadding, ContentWidth, Expressions } from '../Configs'
+import { LargePadding, ContentWidth } from '../Configs'
 import { GlobalErrors } from '../model/Shape'
 import ShapeFactory, { CreateShapeResult } from '../model/ShapeFactory'
 import AlertUtil from '../util/AlertUtil'
@@ -16,7 +16,8 @@ function HomePage() {
         if (inputs.length === 0) { AlertUtil.alertErr(GlobalErrors.EmptyOrInvalidFormatInput); return }
 
         // valdiate first before generating shapes for rendering
-        const inputLines = inputs.split(Expressions.NewLine);
+        const inputLines = inputs.split('/\r?\n/');
+        debugger;
         var currentShapes = []
         for (var i = 0; i < inputLines.length; i++) {
             const line = i + 1
@@ -43,7 +44,6 @@ function HomePage() {
         const type = components[0]
         const attributeComponents = components.slice(1, components.length)
         const result = new ShapeFactory().createShape(type, attributeComponents)
-        debugger;
         return result
     }
 
@@ -67,7 +67,7 @@ function HomePage() {
             <Box flexGrow={1} align="center" py={LargePadding.PY} xs={ContentWidth.SM} md={ContentWidth.MD}>
                 <svg viewMode="0 0 100 100" width="100%" height={512} xs={ContentWidth.SM} md={ContentWidth.MD} style={{border: '1px solid gray', background: "dark-gray"}}>
                     {shapes.map((shape) => (
-                        <SVGShape model={shape}/>    
+                        <SVGShape model={shape}/>
                     ))}
                 </svg>
             </Box>
