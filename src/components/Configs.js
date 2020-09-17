@@ -19,5 +19,9 @@ const ContentWidth = {
     MD: 6
 }
 
+const Expressions = {
+    NewLine: '/\r?\n/'
+}
+
 export default Configs
-export { StaticRoutes, StandardPadding, LargePadding, ContentWidth }
+export { StaticRoutes, StandardPadding, LargePadding, ContentWidth, Expressions }

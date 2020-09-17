@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { TextareaAutosize, Typography, Box, Container, Button } from '@material-ui/core'
-import { LargePadding, ContentWidth } from '../Configs'
-import { ShapeFactory } from '../model/Shapes.js'
+import { LargePadding, ContentWidth, Expressions } from '../Configs'
+import { ShapeFactory, GlobalErrors } from '../model/Shapes'
+import AlertUtil from '../util/AlertUtil'
 import SVGShape from '../common/SVGShape'
 
 function HomePage() {
@@ -11,16 +12,18 @@ function HomePage() {
 
     const generateShapes = ()=> {
         const inputs = svgCanvasRef.current.value
-        if (inputs.length === 0) { alert("empty input"); return }
+        if (inputs.length === 0) { AlertUtil.alert(GlobalErrors.EmptyInput); return }
 
         // valdiate first before generating shapes for rendering
-        const inputLines = inputs.split(/\r?\n/);
+        const inputLines = inputs.split(Expressions.NewLine);
         var currentShapes = []
         for (var i = 0; i < inputLines.length; i++) {
-            var shape = validateInput(inputLines[i], i+1)
-            if (shape !== undefined) {
-                currentShapes.push(shape)
-            }
+            const line = i + 1
+            let createShapeResult = validateInput(inputLines[i], line)
+            if (createShapeResult === undefined) { AlertUtil.alert(GlobalErrors.Generic); return }
+            if (createShapeResult.error !== undefined) { AlertUtil.alertWithLine(createShapeResult.error, line); return }
+            if (createShapeResult.shape === undefined) { AlertUtil.alert(GlobalErrors.Generic); return }
+            currentShapes.push(createShapeResult.shape)
         }
 
         setShapes(currentShapes)

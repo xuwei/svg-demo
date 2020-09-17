@@ -9,7 +9,9 @@ const TypeOfShape = {
 }
 
 const GlobalErrors = {
-    InvalidDimension : "Invalid dimensions. Element size cannot exceed 250."
+    InvalidDimension : "Invalid dimensions. Element size cannot exceed 250.",
+    EmptyInput : "Empty input is invalid. Please check usage examples.",
+    Generic : "Input is invalid, please check usage examples."
 }
 
 const Constants = {
