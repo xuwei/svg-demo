@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { TextareaAutosize, Typography, Box, Container, Button } from '@material-ui/core'
 import { LargePadding, ContentWidth, Expressions } from '../Configs'
-import { ShapeFactory, GlobalErrors } from '../model/Shapes'
+import { GlobalErrors } from '../model/Shape'
+import ShapeFactory, { CreateShapeResult } from '../model/ShapeFactory'
 import AlertUtil from '../util/AlertUtil'
 import SVGShape from '../common/SVGShape'
 
@@ -12,7 +13,7 @@ function HomePage() {
 
     const generateShapes = ()=> {
         const inputs = svgCanvasRef.current.value
-        if (inputs.length === 0) { AlertUtil.alert(GlobalErrors.EmptyInput); return }
+        if (inputs.length === 0) { AlertUtil.alertErr(GlobalErrors.EmptyOrInvalidFormatInput); return }
 
         // valdiate first before generating shapes for rendering
         const inputLines = inputs.split(Expressions.NewLine);
@@ -20,10 +21,10 @@ function HomePage() {
         for (var i = 0; i < inputLines.length; i++) {
             const line = i + 1
             let createShapeResult = validateInput(inputLines[i], line)
-            if (createShapeResult === undefined) { AlertUtil.alert(GlobalErrors.Generic); return }
-            if (createShapeResult.error !== undefined) { AlertUtil.alertWithLine(createShapeResult.error, line); return }
-            if (createShapeResult.shape === undefined) { AlertUtil.alert(GlobalErrors.Generic); return }
-            currentShapes.push(createShapeResult.shape)
+            if (createShapeResult === undefined) { AlertUtil.alertErrWithLine(GlobalErrors.Generic, line); return }
+            if (createShapeResult.error !== undefined) { AlertUtil.alertErrWithLine(createShapeResult.error, line); return }
+            if (createShapeResult.response === undefined) { AlertUtil.alertErrWithLine(GlobalErrors.Generic, line); return }
+            currentShapes.push(createShapeResult.response)
         }
 
         setShapes(currentShapes)
@@ -31,23 +32,25 @@ function HomePage() {
 
     const validateInput = (input, line)=> {
         
+        const minParams = 2
+
         // validate input lengths 
-        if (input.length === 0) { return undefined }
+        if (input.length === 0) { return genericError(GlobalErrors.EmptyOrInvalidFormatInput) }
         const components = input.split(" ")
-        if (components.length < 2) { return undefined}
+        if (components.length < minParams) { return genericError(GlobalErrors.EmptyOrInvalidFormatInput)}
         
         // build shape using ShapeFactory
         const type = components[0]
         const attributeComponents = components.slice(1, components.length)
-        var result = new ShapeFactory().createShape(type, attributeComponents)
-        if (result === undefined) { return result }
+        const result = new ShapeFactory().createShape(type, attributeComponents)
+        debugger;
+        return result
+    }
 
-        if (result.error !== undefined) {
-            alert(result.error, line)
-            return undefined
-        } else {
-            return result.response 
-        }
+    const genericError = (err) => {
+        var result = new CreateShapeResult()
+        result.error = err 
+        return result
     }
 
     // this triggers refresh when shapes is updated

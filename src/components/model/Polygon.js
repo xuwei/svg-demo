@@ -1,4 +1,5 @@
-import Shape, { CreateShapeResult, TypeOfShape } from '../model/Shapes.js'
+import Shape, { TypeOfShape } from './Shape'
+import { CreateShapeResult } from './ShapeFactory'
 import NumberUtil from '../util/NumberUtil'
 
 const PolygonErrors = {
@@ -20,7 +21,7 @@ class Coord {
         if (!NumberUtil.isNumber(components[0]) || !NumberUtil.isNumber(components[1])) { result.error = PolygonErrors.InvalidParam; return result }
 
         const coord = new Coord(components[0], components[1])
-        result.shape = coord
+        result.response = coord
         result.error = undefined
         return result
     }

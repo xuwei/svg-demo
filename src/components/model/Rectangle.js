@@ -1,4 +1,5 @@
-import Shape, { CreateShapeResult, Constants, TypeOfShape, GlobalErrors } from '../model/Shapes.js'
+import Shape, { Constants, TypeOfShape, GlobalErrors } from './Shape'
+import { CreateShapeResult } from './ShapeFactory'
 import NumberUtil from '../util/NumberUtil'
 
 const RectangleErrors = {

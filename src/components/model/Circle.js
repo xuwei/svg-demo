@@ -1,4 +1,5 @@
-import Shape, { CreateShapeResult, Constants, TypeOfShape, GlobalErrors } from '../model/Shapes.js'
+import Shape, { Constants, TypeOfShape, GlobalErrors } from './Shape'
+import { CreateShapeResult } from './ShapeFactory'
 import NumberUtil from '../util/NumberUtil'
 
 const CircleErrors = {
@@ -15,6 +16,7 @@ class Circle extends Shape {
     }
 
     generateShape = (components) => {
+        debugger;
         const numOfParams = 3
         var result = new CreateShapeResult()
         if (components === undefined) { result.error = CircleErrors.InvalidParam; return result }
@@ -23,7 +25,7 @@ class Circle extends Shape {
         const circle = new Circle(TypeOfShape.Circle, components[0], components[1], components[2])
         if (circle.isValid() === false) { result.error = GlobalErrors.InvalidDimension; return result }
         
-        result.shape = circle
+        result.response = circle
         result.error = undefined
         return result
     }

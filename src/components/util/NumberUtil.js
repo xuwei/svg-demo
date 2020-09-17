@@ -1,5 +1,6 @@
 const isNumber = (value) => {
-   return typeof value === 'number' && isFinite(value);
+   let val = Number(value)
+   return typeof val === 'number' && isFinite(val);
 }
 
 export default { isNumber }

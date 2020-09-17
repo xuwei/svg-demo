@@ -1,22 +1,7 @@
 import Circle from "./Circle"
 import Polygon from "./Polygon"
 import Rectangle from './Rectangle'
-
-const TypeOfShape = {
-    Rectangle : 'r', 
-    Circle : 'c',
-    Polygon : 'p'
-}
-
-const GlobalErrors = {
-    InvalidDimension : "Invalid dimensions. Element size cannot exceed 250.",
-    EmptyInput : "Empty input is invalid. Please check usage examples.",
-    Generic : "Input is invalid, please check usage examples."
-}
-
-const Constants = {
-    maxSize : 250
-}
+import { TypeOfShape } from './Shape'
 
 class CreateShapeResult {
     response
@@ -39,11 +24,5 @@ class ShapeFactory {
     }
 }
 
-class Shape {
-    constructor(type) {
-        this.type = type
-    }
-}
-
-export default Shape
-export { ShapeFactory, CreateShapeResult, Constants, TypeOfShape, GlobalErrors }
+export default ShapeFactory
+export { CreateShapeResult }

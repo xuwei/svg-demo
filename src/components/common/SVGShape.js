@@ -1,5 +1,5 @@
 import React from 'react'
-import { TypeOfShape } from '../model/Shapes'
+import { TypeOfShape } from '../model/Shape'
 import ColorUtil from '../util/ColorUtil'
 
 function SVGShape(props) {

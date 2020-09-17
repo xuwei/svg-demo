@@ -1,9 +1,9 @@
-const alert = (msg) => {
+const alertErr = (msg) => {
     alert(msg)
 }
 
-const alertWithLine = (msg, line) => {
+const alertErrWithLine = (msg, line) => {
     alert(msg + "\n Line: " + line)
 }
 
-export default { alert, alertWithLine }
+export default { alertErr, alertErrWithLine }
