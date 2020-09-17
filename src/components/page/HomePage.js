@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { TextareaAutosize, Typography, Box, Container, Button } from '@material-ui/core'
-import { LargePadding } from '../Configs'
+import { LargePadding, ContentWidth } from '../Configs'
 import { ShapeFactory } from '../model/Shapes.js'
 import SVGShape from '../common/SVGShape'
 
@@ -58,17 +58,17 @@ function HomePage() {
                     SVG Demo
                 </Typography>
             </Box>
-            <Box flexGrow={1} align="center" py={LargePadding.PY} xs={12} md={6}>
-                <svg viewMode="0 0 100 100" width="100%" height={512} xs={12} md={12} style={{border: '1px solid gray', background: "dark-gray"}}>
+            <Box flexGrow={1} align="center" py={LargePadding.PY} xs={ContentWidth.SM} md={ContentWidth.MD}>
+                <svg viewMode="0 0 100 100" width="100%" height={512} xs={ContentWidth.SM} md={ContentWidth.MD} style={{border: '1px solid gray', background: "dark-gray"}}>
                     {shapes.map((shape) => (
                         <SVGShape model={shape}/>    
                     ))}
                 </svg>
             </Box>
-            <Box flexGrow={1} align="center" py={LargePadding.PY} xs={12} md={6}>
+            <Box flexGrow={1} align="center" py={LargePadding.PY} xs={ContentWidth.SM} md={ContentWidth.MD}>
                 <TextareaAutosize ref={svgCanvasRef} aria-label="minimum height" rowsMin={3} placeholder="Enter instructions here" style={{"width": "50%", "textAlign" : "center" }} />
             </Box>
-            <Box flexGrow={1} align="center" py={LargePadding.PY} xs={12} md={6}>
+            <Box flexGrow={1} align="center" py={LargePadding.PY} xs={ContentWidth.SM} md={ContentWidth.MD}>
                 <Button variant="contained" color="primary" onClick={generateShapes}>Generate</Button>
             </Box>
         </Container>
