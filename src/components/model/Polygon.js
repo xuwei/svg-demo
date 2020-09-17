@@ -45,7 +45,7 @@ class Polygon extends Shape {
         
         for (var i = 0; i < components.length; i++) {
             var current = components[i]
-            var coordComponents = current.spit(",")
+            var coordComponents = current.split(",")
             var coord = new Coord().generateCoord(coordComponents)
             if (coord.error !== undefined) { result.error = coord.error; return result }
             coords.push(coord.response)

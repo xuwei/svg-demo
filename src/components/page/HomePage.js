@@ -16,7 +16,7 @@ function HomePage() {
         if (inputs.length === 0) { AlertUtil.alertErr(GlobalErrors.EmptyOrInvalidFormatInput); return }
 
         // valdiate first before generating shapes for rendering
-        const inputLines = inputs.split('/\r?\n/');
+        const inputLines = inputs.split(/\r?\n/);
         debugger;
         var currentShapes = []
         for (var i = 0; i < inputLines.length; i++) {
