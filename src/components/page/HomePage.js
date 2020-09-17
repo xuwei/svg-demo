@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { TextareaAutosize, Typography, Box, Container, Button } from '@material-ui/core'
-import { LargePadding, ContentWidth } from '../Configs'
+import { List, ListItemText, TextareaAutosize, Typography, Box, Container, Button } from '@material-ui/core'
+import { LargePadding, StandardPadding, ContentWidth } from '../Configs'
 import { GlobalErrors } from '../model/Shape'
 import ShapeFactory, { CreateShapeResult } from '../model/ShapeFactory'
 import AlertUtil from '../util/AlertUtil'
@@ -12,16 +12,15 @@ function HomePage() {
     const svgCanvasRef = useRef(null)
 
     const generateShapes = ()=> {
-        const inputs = svgCanvasRef.current.value
+        const inputs = svgCanvasRef.current.value.trim()
         if (inputs.length === 0) { AlertUtil.alertErr(GlobalErrors.EmptyOrInvalidFormatInput); return }
 
         // valdiate first before generating shapes for rendering
         const inputLines = inputs.split(/\r?\n/);
-        debugger;
         var currentShapes = []
         for (var i = 0; i < inputLines.length; i++) {
             const line = i + 1
-            let createShapeResult = validateInput(inputLines[i], line)
+            let createShapeResult = validateInput(inputLines[i])
             if (createShapeResult === undefined) { AlertUtil.alertErrWithLine(GlobalErrors.Generic, line); return }
             if (createShapeResult.error !== undefined) { AlertUtil.alertErrWithLine(createShapeResult.error, line); return }
             if (createShapeResult.response === undefined) { AlertUtil.alertErrWithLine(GlobalErrors.Generic, line); return }
@@ -31,7 +30,7 @@ function HomePage() {
         setShapes(currentShapes)
     }
 
-    const validateInput = (input, line)=> {
+    const validateInput = (input)=> {
         
         const minParams = 2
 
@@ -72,10 +71,20 @@ function HomePage() {
                 </svg>
             </Box>
             <Box flexGrow={1} align="center" py={LargePadding.PY} xs={ContentWidth.SM} md={ContentWidth.MD}>
-                <TextareaAutosize ref={svgCanvasRef} aria-label="minimum height" rowsMin={3} placeholder="Enter instructions here" style={{"width": "50%", "textAlign" : "center" }} />
+                <TextareaAutosize ref={svgCanvasRef} aria-label="minimum height" rowsMin={3} placeholder="Enter instructions here" style={{"width": "50%", "textAlign" : "center", "backgroundColor" : "black", "color" : "white"}} />
             </Box>
             <Box flexGrow={1} align="center" py={LargePadding.PY} xs={ContentWidth.SM} md={ContentWidth.MD}>
                 <Button variant="contained" color="primary" onClick={generateShapes}>Generate</Button>
+            </Box>
+            <Box flexGrow={1} align="center" py={StandardPadding.PY} xs={ContentWidth.SM} md={ContentWidth.MD}>
+                <Typography variant="h6" color="primary">SVG instruction Usages:</Typography>
+                <Typography variant="body" color="primary">
+                    <List>
+                        <ListItemText>Rectangle - r 0 0 100 100</ListItemText>
+                        <ListItemText>Circle - c 0 0 100</ListItemText>
+                        <ListItemText>Polygon - p 10,20 40,50 30,20 ....</ListItemText>
+                    </List>
+                </Typography>
             </Box>
         </Container>
     )
